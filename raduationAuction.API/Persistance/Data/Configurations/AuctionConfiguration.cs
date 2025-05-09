@@ -12,17 +12,6 @@ namespace GraduationAuction.API.Persistance.Data.Configurations
                    .WithOne(I => I.Auction)
                    .HasForeignKey<Auction>(A => A.itemid);
 
-            //builder.HasOne(a => a.seller)
-            //      .WithMany(s => s.Auctions)
-            //      .HasForeignKey(a => a.selleruserid);
-
-
-            //builder.HasOne(a => a.admin)
-            //       .WithMany(ad => ad.Auctions)
-            //       .HasForeignKey(a => a.adminuserid);
-
-           
-
 
             builder.HasMany(a => a.biddings)
               .WithOne(b => b.auction)

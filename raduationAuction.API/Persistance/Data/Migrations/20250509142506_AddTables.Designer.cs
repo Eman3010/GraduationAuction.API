@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GraduationAuction.API.Persistance.Data.Migrations
+namespace raduationAuction.API.Persistance.Data.Migrations
 {
     [DbContext(typeof(webDbContext))]
-    [Migration("20250507231942_edit6")]
-    partial class edit6
+    [Migration("20250509142506_AddTables")]
+    partial class AddTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,9 +49,6 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<int>("itemid")
                         .HasColumnType("int");
 
@@ -60,8 +57,6 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AuctionID");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("itemid")
                         .IsUnique();
@@ -95,26 +90,6 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                     b.ToTable("Bids");
                 });
 
-            modelBuilder.Entity("raduationAuction.API.Model.BuyerPayment", b =>
-                {
-                    b.Property<int>("BuyerUserID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BiddingID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BuyerUserID", "BiddingID");
-
-                    b.HasIndex("BiddingID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BuyerPayments");
-                });
-
             modelBuilder.Entity("raduationAuction.API.Model.Category", b =>
                 {
                     b.Property<int>("CategoryID")
@@ -123,7 +98,7 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -148,55 +123,23 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("categoryId")
+                        .HasColumnType("int");
+
                     b.HasKey("ItemID");
+
+                    b.HasIndex("categoryId");
 
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("raduationAuction.API.Model.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("raduationAuction.API.Model.Auction", b =>
                 {
-                    b.HasOne("raduationAuction.API.Model.User", "User")
-                        .WithMany("Auctions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("raduationAuction.API.Model.Item", "item")
                         .WithOne("Auction")
                         .HasForeignKey("raduationAuction.API.Model.Auction", "itemid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
 
                     b.Navigation("item");
                 });
@@ -212,17 +155,14 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                     b.Navigation("auction");
                 });
 
-            modelBuilder.Entity("raduationAuction.API.Model.BuyerPayment", b =>
+            modelBuilder.Entity("raduationAuction.API.Model.Item", b =>
                 {
-                    b.HasOne("raduationAuction.API.Model.Bidding", null)
-                        .WithMany("BuyerPayment")
-                        .HasForeignKey("BiddingID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("raduationAuction.API.Model.Category", "category")
+                        .WithMany("Items")
+                        .HasForeignKey("categoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("raduationAuction.API.Model.User", null)
-                        .WithMany("buyerPayments")
-                        .HasForeignKey("UserId");
+                    b.Navigation("category");
                 });
 
             modelBuilder.Entity("raduationAuction.API.Model.Auction", b =>
@@ -230,22 +170,15 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                     b.Navigation("biddings");
                 });
 
-            modelBuilder.Entity("raduationAuction.API.Model.Bidding", b =>
+            modelBuilder.Entity("raduationAuction.API.Model.Category", b =>
                 {
-                    b.Navigation("BuyerPayment");
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("raduationAuction.API.Model.Item", b =>
                 {
                     b.Navigation("Auction")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("raduationAuction.API.Model.User", b =>
-                {
-                    b.Navigation("Auctions");
-
-                    b.Navigation("buyerPayments");
                 });
 #pragma warning restore 612, 618
         }

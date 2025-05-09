@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GraduationAuction.API.Persistance.Data.Migrations
+namespace raduationAuction.API.Persistance.Data.Migrations
 {
     [DbContext(typeof(webDbContext))]
     partial class webDbContextModelSnapshot : ModelSnapshot
@@ -53,15 +53,10 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("userid")
-                        .HasColumnType("int");
-
                     b.HasKey("AuctionID");
 
                     b.HasIndex("itemid")
                         .IsUnique();
-
-                    b.HasIndex("userid");
 
                     b.ToTable("Auctions");
                 });
@@ -85,14 +80,9 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("BuyerUserId")
-                        .HasColumnType("int");
-
                     b.HasKey("BiddingID");
 
                     b.HasIndex("Auctionid");
-
-                    b.HasIndex("BuyerUserId");
 
                     b.ToTable("Bids");
                 });
@@ -140,23 +130,6 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("raduationAuction.API.Model.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-                });
-
             modelBuilder.Entity("raduationAuction.API.Model.Auction", b =>
                 {
                     b.HasOne("raduationAuction.API.Model.Item", "item")
@@ -165,15 +138,7 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("raduationAuction.API.Model.User", "user")
-                        .WithMany("Auctions")
-                        .HasForeignKey("userid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("item");
-
-                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("raduationAuction.API.Model.Bidding", b =>
@@ -184,14 +149,6 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("raduationAuction.API.Model.User", "Buyer")
-                        .WithMany("biddings")
-                        .HasForeignKey("BuyerUserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Buyer");
-
                     b.Navigation("auction");
                 });
 
@@ -199,7 +156,8 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                 {
                     b.HasOne("raduationAuction.API.Model.Category", "category")
                         .WithMany("Items")
-                        .HasForeignKey("categoryId");
+                        .HasForeignKey("categoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("category");
                 });
@@ -218,13 +176,6 @@ namespace GraduationAuction.API.Persistance.Data.Migrations
                 {
                     b.Navigation("Auction")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("raduationAuction.API.Model.User", b =>
-                {
-                    b.Navigation("Auctions");
-
-                    b.Navigation("biddings");
                 });
 #pragma warning restore 612, 618
         }

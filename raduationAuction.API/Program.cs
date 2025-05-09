@@ -33,15 +33,15 @@ namespace raduationAuction.API
                     options.UseSqlServer(ConnectionString);
             });
 
-            builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
-            builder.Services.AddScoped<IItemRepository, ItemRepository>();
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<IAuctionServices, AddAuctionServices>();
+            //builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
+            //builder.Services.AddScoped<IItemRepository, ItemRepository>();
+            //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            //builder.Services.AddScoped<IAuctionServices, AddAuctionServices>();
 
             //builder.Services.AddScoped<IDbInializer, DbInializer>();
             var app = builder.Build();
 
-            using var scope = app.Services.CreateScope();
+           // using var scope = app.Services.CreateScope();
             //var dbInializer = scope.ServiceProvider.GetRequiredService<IDbInializer>();
             //await dbInializer.InializerAsync();
             // Configure the HTTP request pipeline.

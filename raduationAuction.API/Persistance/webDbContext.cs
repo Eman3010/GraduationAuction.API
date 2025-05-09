@@ -1,16 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using raduationAuction.API.Model;
 using System.Reflection;
 
 namespace GraduationAuction.API.Persistance
 {
-    public class webDbContext:DbContext
+    public class webDbContext:IdentityDbContext<User>
     {
 
-        public webDbContext(DbContextOptions options):base(options) { }
+        public webDbContext(DbContextOptions<webDbContext> options):base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
        // public DbSet<User> Users { get; set; }

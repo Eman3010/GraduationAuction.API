@@ -10,8 +10,9 @@ namespace raduationAuction.API.Persistance.Data.Configurations
         {
             builder.HasOne(i => i.category)
                   .WithMany(c => c.Items)
-                   .HasForeignKey(i => i.categoryId);
-       }
+                   .HasForeignKey(i => i.categoryId)
+                  .OnDelete(DeleteBehavior.NoAction);
+        }
     }
 
 }
