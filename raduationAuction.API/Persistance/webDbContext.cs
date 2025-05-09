@@ -15,7 +15,7 @@ namespace GraduationAuction.API.Persistance
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-       // public DbSet<User> Users { get; set; }
+      
         public DbSet<Item> Items { get; set; }
         public DbSet<Category> Categories { get; set; }
 

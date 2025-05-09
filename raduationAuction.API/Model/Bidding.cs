@@ -11,7 +11,6 @@
         public int Auctionid { get; set; }
         public Auction auction { get; set; }
 
-       // public int BuyerUserId { get; set; }
-       // public User Buyer { get; set; }
+       
     }
 }

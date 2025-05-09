@@ -11,11 +11,11 @@ namespace raduationAuction.API.Model
 
 
 
-        //public ICollection<Auction> Auctions { get; set; } = new HashSet<Auction>();
+        public ICollection<Auction> Auctions { get; set; } = new HashSet<Auction>();
 
 
-        // public ICollection<Bidding>  biddings { get; set; } = new HashSet<Bidding>();
+         public ICollection<Bidding>  biddings { get; set; } = new HashSet<Bidding>();
 
-        //  }
+       
     }
 }

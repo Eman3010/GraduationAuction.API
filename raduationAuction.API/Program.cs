@@ -2,9 +2,16 @@
 using GraduationAuction.API.Persistance;
 using GraduationAuction.API.Repositories;
 using GraduationAuction.API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using raduationAuction.API.AuthServices;
 using raduationAuction.API.DataSeeds;
+using raduationAuction.API.Model;
 using raduationAuction.API.Repositories;
+using System.Reflection;
+using System.Text;
 
 namespace raduationAuction.API
 {
@@ -39,6 +46,35 @@ namespace raduationAuction.API
             //builder.Services.AddScoped<IAuctionServices, AddAuctionServices>();
 
             //builder.Services.AddScoped<IDbInializer, DbInializer>();
+
+
+            //builder.Services.AddFluentValidationAutoValidation()
+            //.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+           builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
+
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<webDbContext>();
+
+           builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(o =>
+            {
+                o.SaveToken = true;
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("J7MfAb4WcAIMkkigVtIepIILOVJEjAcB")),
+                    ValidIssuer = "SurveyBasketApp",
+                    ValidAudience = "SurveyBasketApp users"
+                };
+            });
             var app = builder.Build();
 
            // using var scope = app.Services.CreateScope();

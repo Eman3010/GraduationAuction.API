@@ -13,9 +13,7 @@ namespace raduationAuction.API.Model
         public DateTime EndDate { get; set; }
         public string pictureURL { get; set; } = null!;
 
-       // public int userid { get; set; }
-        //public User user { get; set; }
-
+       
         [JsonIgnore]
         public int itemid { get; set; }
         public Item item { get; set; }
