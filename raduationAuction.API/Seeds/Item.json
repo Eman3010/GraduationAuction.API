@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "Luxury Watch",
+    "Description": "A high-end luxury watch made of gold and diamond.",
+    "CategoryID" :  1
+  },
+  {
+    "Name": "Vintage Car",
+    "Description": "A classic 1960s car in pristine condition, fully restored.",
+    "CategoryID": 2
+  },
+  {
+    "Name": "Designer Handbag",
+    "Description": "A limited edition designer handbag made from premium leather.",
+    "CategoryID": 3
+  },
+  {
+      "Name": "Designer",
+      "Description": "A limited edition  handbag made from premium leather.",
+      "CategoryID": 4
+  }
+
+]
